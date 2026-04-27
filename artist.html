@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUMMER APHANTASIA | Artist</title>
+    <style>
+        /* ==== 기본 색상 변수 ==== */
+        :root {
+            --bg-white: #ffffff;
+            --bg-light-grey: #f8f9fa;
+            --bg-mid-grey: #e9ecef;
+            --text-dark: #212529;
+            --text-grey: #6c757d;
+            --border-color: #f1f3f5;
+        }
+
+        /* ==== 다크 모드 색상 변수 ==== */
+        body.dark-mode {
+            --bg-white: #121212;
+            --bg-light-grey: #1e1e1e;
+            --bg-mid-grey: #2d2d2d;
+            --text-dark: #f8f9fa;
+            --text-grey: #adb5bd;
+            --border-color: #333333;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light-grey);
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ==== 네비게이션 바 ==== */
+        nav {
+            background-color: var(--bg-white);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links li a:hover, .nav-links li a.active {
+            color: var(--text-dark);
+        }
+
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark-mode-btn:hover {
+            transform: scale(1.15);
+        }
+
+        /* ==== 아티스트 타이틀 박스 ==== */
+        .artist-header-section {
+            padding: 80px 20px 50px;
+            text-align: center;
+        }
+
+        .title-box {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .title-box h1 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-grey);
+        }
+
+        .title-box h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        /* ==== 아티스트 그리드 (2x2) ==== */
+        .artist-grid-section {
+            padding: 0 0 100px;
+        }
+
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .artist-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .artist-card {
+            background-color: var(--bg-white);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, background-color 0.4s ease;
+        }
+
+        body.dark-mode .artist-card {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .artist-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        body.dark-mode .artist-card:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .artist-photo-wrapper {
+            width: 100%;
+            aspect-ratio: 512 / 768; 
+            overflow: hidden;
+            background-color: var(--bg-mid-grey);
+        }
+
+        .artist-photo {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s ease;
+        }
+
+        .artist-card:hover .artist-photo {
+            transform: scale(1.05);
+        }
+
+        .artist-name {
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            transition: background-color 0.4s ease;
+        }
+
+        /* ==== 모달 (팝업창) 디자인 ==== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--bg-white);
+            width: 90%;
+            max-width: 400px; 
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s ease;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
+
+        body.dark-mode .modal-content {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background-color: #ced4da;
+            border-radius: 10px;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-grey);
+            transition: color 0.2s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-dark);
+            transform: rotate(90deg);
+        }
+
+        .modal-photo {
+            width: 100%;
+            aspect-ratio: 832 / 1216; 
+            margin: 0 auto 20px;
+            background-color: var(--bg-mid-grey);
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            letter-spacing: 1px;
+        }
+
+        .modal-desc {
+            font-size: 0.95rem;
+            color: var(--text-grey);
+            word-break: keep-all;
+            line-height: 1.7;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: var(--bg-white);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-grey);
+            font-size: 0.9rem;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="index.html#top" class="logo">SUMMER APHANTASIA</a>
+            <div class="nav-actions">
+                <ul class="nav-links">
+                    <li><a href="index.html#top">About</a></li>
+                    <li><a href="index.html#about">Concept</a></li>
+                    <li><a href="#" class="active" style="color: var(--text-dark);">Artist</a></li>
+                    <li><a href="index.html#RIP">추모공간</a></li>
+                </ul>
+                <button id="darkModeToggle" class="dark-mode-btn" title="다크 모드 전환">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="artist-header-section">
+        <div class="title-box">
+            <h1>summer aphantasia</h1>
+            <h2>아티스트를 소개합니다</h2>
+        </div>
+    </header>
+
+    <section class="artist-grid-section">
+        <div class="container">
+            <div class="artist-grid">
+                
+                <div class="artist-card" onclick="openModal('이민주', '이민주 아티스트칸 둘째.png', '안녕하세요!! 00년생 보컬 이민주입니다 😊 MBTI는 ENFP!! 여러분 에너지 다 받아갈게요~ 대신 저도 두 배로 돌려드릴게요!!! 항상 사랑합니다 ♥️♥️♥️♥️')">
+                    <div class="artist-photo-wrapper">
+                        <div class="artist-photo" style="background-image: url('이민주 아티스트칸 첫째.png');"></div>
+                    </div>
+                    <div class="artist-name">이민주</div>
+                </div>
+
+                <div class="artist-card" onclick="openModal('윤수지', '윤수지 아티스트칸 둘째.png', '안녕하세요. 베이스 윤수지에요. 02년생, INFP입니다...!!! 뭘 써야 할지 모르겠어요.. 잘 부탁드립니다 🙂')">
+                    <div class="artist-photo-wrapper">
+                        <div class="artist-photo" style="background-image: url('윤수지 아티스트칸 첫째.png');"></div>
+                    </div>
+                    <div class="artist-name">윤수지</div>
+                </div>
+
+                <div class="artist-card" onclick="openModal('진선아', '진선아 아티스트칸 둘째.png', '키보드 진선아, 99년생 ENTP입니다. 맏언니 입니다. 아 맞다, 잘 부탁드립니다.')">
+                    <div class="artist-photo-wrapper">
+                        <div class="artist-photo" style="background-image: url('진선아 아티스트칸 첫째.png');"></div>
+                    </div>
+                    <div class="artist-name">진선아</div>
+                </div>
+
+                <div class="artist-card" onclick="openModal('최지형', '최지형 아티스트칸 첫째.png', '드럼 / 2004년생 / INTJ / 말수는 적고 실수는 많습니다.')">
+                    <div class="artist-photo-wrapper">
+                        <div class="artist-photo" style="background-image: url('최지형 아티스트칸 첫째.png');"></div>
+                    </div>
+                    <div class="artist-name">최지형</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            &copy; 2026 SUMMER APHANTASIA. All rights reserved.
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="artistModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeModal()">✕</button>
+            <div class="modal-photo" id="modalImg"></div>
+            <h3 class="modal-title" id="modalName">아티스트 이름</h3>
+            <p class="modal-desc" id="modalDesc">아티스트에 대한 상세 설명이 이곳에 표시됩니다.</p>
+        </div>
+    </div>
+
+    <script>
+        // --- 아티스트 팝업 모달 스크립트 ---
+        const modal = document.getElementById('artistModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalName = document.getElementById('modalName');
+        const modalDesc = document.getElementById('modalDesc');
+
+        function openModal(name, imgSrc, desc) {
+            modalName.innerText = name;
+            modalDesc.innerText = desc;
+            modalImg.style.backgroundImage = `url('${imgSrc}')`;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- 다크모드 토글 & 상태 유지 스크립트 ---
+        const darkModeBtn = document.getElementById('darkModeToggle');
+        
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            darkModeBtn.innerText = '☀️';
+        }
+
+        darkModeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if(document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeBtn.innerText = '☀️';
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeBtn.innerText = '🌙';
+            }
+        });
+    </script>
+</body>
+</html>
